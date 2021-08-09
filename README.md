@@ -63,6 +63,45 @@ Méthode pour gérer / déclencher ou pas le tracking par Google Analytics selon
 
 ### Body
 ```html
-  <!-- Script Trigger à positionner en début de balse <body>, avant la modal de consentement
+  <!-- Script Trigger à positionner en début de balse <body>, avant la modal/banner de consentement
   <script type="text/javascript" src="./js/gtagHandler.js"></script>
+```
+
+### Script trigger "gtagHandler.js" / Algorithme
+```Javascript
+  // Init elements
+const cookieNotification = document.querySelector('.notification');
+const agreedButton = document.getElementById('consentAgreed');
+const deniedButton = document.getElementById('consentDenied');
+
+// check for sessionStorage data
+const consent = sessionStorage.getItem('consent');
+if (!consent) {
+    cookieNotification.classList.remove('is-hidden');
+    agreedButton.addEventListener('click', () => {
+        sessionStorage.setItem('consent', 'agreed');
+        consentGranted();
+        cookieNotification.classList.add('is-hidden');
+    });
+    deniedButton.addEventListener('click', () => {
+        sessionStorage.setItem('consent', 'denied');
+        cookieNotification.classList.add('is-hidden');
+    });
+} else if (consent === 'agreed') {
+    consentGranted();
+}
+  // Vérification si le visiteur a déjà pris une décision "consentement ou pas" ? (state, sessionStorage...)
+    if (!consent) {
+      // Affichage de la modal/banner de consentement
+      // Pose d'écouter sur les boutons "Agreed" & "Denied" puis test
+      // if "Agreed"
+        sessionStorage.setItem('consent', 'agreed'); // Exemple de stockage de la décision du visiteur avec sessionStorage
+        consentGranted(); // Mise à jour du comportement de la méthode gtag = stokage des données et tracking
+      // Else
+        sessionStorage.setItem('consent', 'denied');
+      // Fermeture de la modal/banner de consentement
+    }
+    // Si décision déjà prise :
+      //si "Agreed"
+        consentGranted();
 ```
