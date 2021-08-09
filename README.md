@@ -1,6 +1,6 @@
 # google-analytics-trigger
 
-Méthode pour gérer / déclencher ou pas le tracking par Google Analytics selon le consentement du visiteur.
+Astuce pour gérer et déclencher le tracking et le stockage des données par Google Analytics selon le consentement du visiteur.
 
 ## Init & config du script gtag
 
