@@ -68,40 +68,34 @@ Astuce pour gérer et déclencher le tracking et le stockage des données par Go
 ```
 
 ### Script trigger "gtagHandler.js" / Algorithme
+
+NB : Ici le script utilise `sessionStorage`, pour une SPA en REACT il faut utiliser le `state`.
+
 ```Javascript
-  // Init elements
+// Initialisation des éléments du DOM
 const cookieNotification = document.querySelector('.notification');
 const agreedButton = document.getElementById('consentAgreed');
 const deniedButton = document.getElementById('consentDenied');
 
-// check for sessionStorage data
+// Vérification des données stockées dans sessionStorage
 const consent = sessionStorage.getItem('consent');
-if (!consent) {
+
+if (!consent) { // L'utilisateur n'a pas encore donné ou non son consentement
     cookieNotification.classList.remove('is-hidden');
+    // L'utilisateur donne son consentement
     agreedButton.addEventListener('click', () => {
         sessionStorage.setItem('consent', 'agreed');
+        // Mise à jour du comportement de gtag
         consentGranted();
         cookieNotification.classList.add('is-hidden');
     });
+    // L'utilisateur NE donne PAS son consentement
     deniedButton.addEventListener('click', () => {
         sessionStorage.setItem('consent', 'denied');
         cookieNotification.classList.add('is-hidden');
     });
-} else if (consent === 'agreed') {
+} else if (consent === 'agreed') { // L'utilisateur a déjà donné son consentement
+    // Mise à jour du comportement de gtag
     consentGranted();
-}
-  // Vérification si le visiteur a déjà pris une décision "consentement ou pas" ? (state, sessionStorage...)
-    if (!consent) {
-      // Affichage de la modal/banner de consentement
-      // Pose d'écouter sur les boutons "Agreed" & "Denied" puis test
-      // if "Agreed"
-        sessionStorage.setItem('consent', 'agreed'); // Exemple de stockage de la décision du visiteur avec sessionStorage
-        consentGranted(); // Mise à jour du comportement de la méthode gtag = stokage des données et tracking
-      // Else
-        sessionStorage.setItem('consent', 'denied');
-      // Fermeture de la modal/banner de consentement
-    }
-    // Si décision déjà prise :
-      //si "Agreed"
-        consentGranted();
+} // Dans le cas où l'utilisateur a déjà REFUSE de donner son consentement = rien ne se passe
 ```
