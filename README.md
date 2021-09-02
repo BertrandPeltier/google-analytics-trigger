@@ -67,7 +67,7 @@ Astuce pour gérer et déclencher le tracking et le stockage des données par Go
   <script type="text/javascript" src="./js/gtagHandler.js"></script>
 ```
 
-### Script trigger "gtagHandler.js" / Algorithme
+### Script trigger "gtagHandler.js" / Algorithme de consentement
 
 NB : Ici le script utilise `sessionStorage`, pour une SPA en REACT il faut utiliser le `state`.
 
